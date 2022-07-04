@@ -30,8 +30,6 @@ from queue import Queue
 #追蹤多線程的bar
 from concurrent.futures import ThreadPoolExecutor
 
-
-
 #查看目前路徑
 os.getcwd()
 os.chdir('/Users/a12345/Desktop/python')
@@ -46,15 +44,8 @@ except FileExistsError:
 except PermissionError:
   print("權限不足。")
 
-
-#讀取產業清單
-#df_industry=pd.read_excel(path2+'all_industry.xlsx')
-
-
 #手動先指定產業list(沒有上述清單時，可用下面的list，下方list是104的產業編號)
 industry_list=['1003000000','1005000000','1006000000','1007000000','1009000000','1001000000','1002000000','1014000000','1010000000','1013000000','1004000000','1008000000','1011000000','1012000000','1015000000','1016000000']
-
-industry_list=['1003000000']
 
 #清空暫存檔案
 files_remove=glob('response_company_new_104**.csv')
@@ -66,8 +57,6 @@ except OSError as e:
     print(e)
 else:
     print("File is deleted successfully")
-
-
 
 #程式開始執行的時間
 start_time = time.time()
@@ -99,8 +88,6 @@ def get_job():
                 df_i.to_csv(fname)
                 time.sleep(random.randint(10,15)) #隨機等待
             
-#get_job()
-
 #運作多線程
 Thread_Team = []
 for x in range(10): #共10個線程，數值愈大爬蟲愈快，但反之ip容易被擋
@@ -109,18 +96,6 @@ for x in range(10): #共10個線程，數值愈大爬蟲愈快，但反之ip容�
     Thread_Team.append(t)
 for t in Thread_Team:
     t.join()
-
-#加入多線程追蹤tqdm
-# def worker(thread_number):
-#     for i in tqdm(range(100),desc=f'thread{thread_number}'):
-#         time.sleep(0.05*thread_number)
-        
-# if _name_ == '__main__':
-#     thread_list=list(range(1,4))
-#     with ThreadPoolExecutor() as p:
-#         p.map(worker,thread_list)
-        
-        
 
 #將公司的資料合併成一個DataFrame
 files=glob('response_company_new_104*.csv')
@@ -152,10 +127,6 @@ def matcher(x):
         return np.nan
 df_b['資本額單位'] = df_b['資本額'].apply(matcher) #新增資本額單位的欄位
 df_b.to_csv('company_info_part_all_new.csv',encoding='utf-8-sig',index=False)
-
-#df_b['員工人數']=df_b['員工人數'].str.extract('(\d+)')
-#df_b['資本']=df_b['資本額'].str.extract('(\d+)')
-
 
 total=df_b["顧客編碼"].nunique()
 finish_time = time.time()
